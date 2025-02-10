@@ -65,6 +65,15 @@ def extract_image_url_from_soup(soup):
     print(image_url)
     return image_url
 
+def add_text_box_on_image(editing_image, text, ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER):
+    # get a drawing context
+    d = ImageDraw.Draw(editing_image)
+    d.rectangle([ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER], fill=(255, 255, 255, 0))
+
+    # draw multiline text
+    ability_text_image = paste_ability_text_in_rect(text, ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER)
+    editing_image.paste(ability_text_image, ABILITY_BOX_TOP_LEFT_CORNER)
+
 
 def download_translated_image(URL):
     print("Given URL: " + URL)
@@ -112,56 +121,14 @@ def download_translated_image(URL):
     print(card_type)
 
     if card_type == CardType.NORMAL:
-        # edit image
-        # The two images I sampled are 650x908
-
-        # get a drawing context
-        d = ImageDraw.Draw(editing_image)
-
-
-        ABILITY_BOX_TOP_LEFT_CORNER = (40, 600)
-        ABILITY_BOX_BOTTOM_RIGHT_CORNER = (600, 810)
-        d.rectangle([ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER], fill=(255, 255, 255, 0))
-
-        # draw multiline text
-        ability_text_image = paste_ability_text_in_rect(full_ability_text, ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER)
-        editing_image.paste(ability_text_image, ABILITY_BOX_TOP_LEFT_CORNER)
+        add_text_box_on_image(editing_image, full_ability_text, (40, 600), (600, 810))
     
     if card_type == CardType.TWINPACT:
-        # get a drawing context
-        d = ImageDraw.Draw(editing_image)
-
-
-        ABILITY_BOX_TOP_LEFT_CORNER = (40, 360)
-        ABILITY_BOX_BOTTOM_RIGHT_CORNER = (600, 450)
-        d.rectangle([ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER], fill=(255, 255, 255, 0))
-
-        # draw multiline text
-        ability_text_image = paste_ability_text_in_rect(full_ability_text, ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER)
-        editing_image.paste(ability_text_image, ABILITY_BOX_TOP_LEFT_CORNER)
-
-        # twinpact
-        ABILITY_BOX_TOP_LEFT_CORNER = (40, 700)
-        ABILITY_BOX_BOTTOM_RIGHT_CORNER = (600, 800)
-        d.rectangle([ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER], fill=(255, 255, 255, 0))
-
-        # draw multiline text
-        ability_text_image = paste_ability_text_in_rect(full_ability_text2, ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER)
-        editing_image.paste(ability_text_image, ABILITY_BOX_TOP_LEFT_CORNER)
+        add_text_box_on_image(editing_image, full_ability_text, (40, 360), (600, 450))
+        add_text_box_on_image(editing_image, full_ability_text2, (40, 700), (600, 800))
     
     if card_type == CardType.SIDEWAYS:
-        # get a drawing context
-        d = ImageDraw.Draw(editing_image)
-
-
-        ABILITY_BOX_TOP_LEFT_CORNER = (40, 420)
-        ABILITY_BOX_BOTTOM_RIGHT_CORNER = (850, 600)
-        d.rectangle([ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER], fill=(255, 255, 255, 0))
-
-        # draw multiline text
-        ability_text_image = paste_ability_text_in_rect(full_ability_text, ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER)
-        editing_image.paste(ability_text_image, ABILITY_BOX_TOP_LEFT_CORNER)
-
+        add_text_box_on_image(editing_image, full_ability_text, (40, 420), (850, 600))
         editing_image = editing_image.rotate(-90, expand=1)
 
     editing_image.save(URL.split("/")[-1] + ".png")
