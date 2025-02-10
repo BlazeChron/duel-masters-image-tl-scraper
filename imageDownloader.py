@@ -54,6 +54,18 @@ def get_card_type_from_soup(soup):
         card_type = CardType.TWINPACT
     return card_type
 
+def extract_image_url_from_soup(soup):
+    # Get image URL
+    possible_images = soup.find_all(href=re.compile("https://static.wikia.nocookie.net/duelmasters"), name="a")
+
+    image_url = ""
+    for img in possible_images:
+        if img.parent.has_attr('class') and img.parent.name == 'div':
+            image_url = img["href"]
+    print(image_url)
+    return image_url
+
+
 def download_translated_image(URL):
     print("Given URL: " + URL)
     soup = get_soup_from_url(URL)
@@ -87,16 +99,9 @@ def download_translated_image(URL):
                 full_ability_text2 += get_to_ability_text_contents(part)
         #full_ability_text2 = ''' use this for other text if not working properly '''
 
-    # Get image URL
-    possible_images = soup.find_all(href=re.compile("https://static.wikia.nocookie.net/duelmasters"), name="a")
-
-    image_url = ""
-    for img in possible_images:
-        if img.parent.has_attr('class') and img.parent.name == 'div':
-            image_url = img["href"]
-    print(image_url)
-
+    
     # Download image
+    image_url = extract_image_url_from_soup(soup)
     img_data = requests.get(image_url).content
     with open('temp_img.png', 'wb') as handler:
         handler.write(img_data)
