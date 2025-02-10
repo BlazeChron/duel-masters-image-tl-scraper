@@ -74,6 +74,18 @@ def add_text_box_on_image(editing_image, text, ABILITY_BOX_TOP_LEFT_CORNER, ABIL
     ability_text_image = paste_ability_text_in_rect(text, ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER)
     editing_image.paste(ability_text_image, ABILITY_BOX_TOP_LEFT_CORNER)
 
+def extract_ability_text_from_soup(soup, english_text_instance):
+    full_ability_text = ""
+    english_texts = soup.find_all(string="English Text")
+    thing = english_texts[english_text_instance]
+    for ability in thing.parent.parent.parent.parent.parent.find_all("td"):
+        for part in ability.contents:
+            text = get_to_ability_text_contents(part)
+            # len(text) == 1 is for a blank line for some reason
+            if text.__contains__("English Text") or len(text) == 1:
+                continue
+            full_ability_text += text
+    return full_ability_text.rstrip()
 
 def download_translated_image(URL):
     print("Given URL: " + URL)
@@ -81,34 +93,11 @@ def download_translated_image(URL):
 
     card_type = get_card_type_from_soup(soup)
 
-    # Extracting ability text
-    english_texts = soup.find_all(string="English Text")
-
-    thing = english_texts[0]
-
-    full_ability_text = ""
+    full_ability_text = extract_ability_text_from_soup(soup, 0)
     full_ability_text2 = ""
-    for ability in thing.parent.parent.parent.parent.parent.find_all("p"):
-        for part in ability.contents:
-            full_ability_text += get_to_ability_text_contents(part)
-    
-#     full_ability_text = '''Blocker Blocker ​■ Double breaker
-
-# ■ When you put this creature, choose 2 of the following. (You may choose the same one twice.)
-
-# ► Choose one of your opponent's creatures. That creature gets -4000 power until the end of the turn.
-# ► Put the top 4 cards of your deck into your graveyard.
-# ► Put a creature that costs 4 or less from your graveyard.
-# ■ When this creature would leave, you may destroy one of your other creatures instead.'''
-
     if card_type == CardType.TWINPACT:
-        thing = english_texts[1]
-        for ability in thing.parent.parent.parent.parent.parent.find_all("p"):
-            for part in ability.contents:
-                full_ability_text2 += get_to_ability_text_contents(part)
-        #full_ability_text2 = ''' use this for other text if not working properly '''
+        full_ability_text2 = extract_ability_text_from_soup(soup, 1)
 
-    
     # Download image
     image_url = extract_image_url_from_soup(soup)
     img_data = requests.get(image_url).content
@@ -131,4 +120,12 @@ def download_translated_image(URL):
         add_text_box_on_image(editing_image, full_ability_text, (40, 420), (850, 600))
         editing_image = editing_image.rotate(-90, expand=1)
 
-    editing_image.save(URL.split("/")[-1] + ".png")
+    name_split = URL.split("/")
+    name = ""
+    name_started = False
+    for i in name_split:
+        if name_started:
+            name += i
+        if i == "wiki":
+            name_started = True
+    editing_image.save(name + ".png")
