@@ -3,6 +3,7 @@ from bs4 import NavigableString, Tag
 import re
 import requests
 import smartLB
+import shutil
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -56,13 +57,17 @@ def get_card_type_from_soup(soup):
 
 def extract_image_url_from_soup(soup):
     # Get image URL
-    possible_images = soup.find_all(href=re.compile("https://static.wikia.nocookie.net/duelmasters"), name="a")
+    # possible_images = soup.find_all(href=re.compile("https://static.wikia.nocookie.net/duelmasters"), name="a")
+    possible_images = soup.find_all(href=re.compile("https://static.wikia.nocookie.net/duelmasters"), class_="mw-file-description image")
+    print("Possible images: ")
+    print(possible_images)
 
     image_url = ""
     for img in possible_images:
-        if img.parent.has_attr('class') and img.parent.name == 'div':
+        if img.parent.has_attr('class') and img.parent.name == 'figure':
             image_url = img["href"]
-    print(image_url)
+        #image_url = img["href"]
+    print("Image url: " + image_url)
     return image_url
 
 def add_text_box_on_image(editing_image, text, ABILITY_BOX_TOP_LEFT_CORNER, ABILITY_BOX_BOTTOM_RIGHT_CORNER):
@@ -98,14 +103,24 @@ def download_translated_image(URL):
     if card_type == CardType.TWINPACT:
         full_ability_text2 = extract_ability_text_from_soup(soup, 1)
 
+
+
+    name_split = URL.split("/")
+    name = ""
+    name_started = False
+    for i in name_split:
+        if name_started:
+            name += i
+        if i == "wiki":
+            name_started = True
+    
     # Download image
     image_url = extract_image_url_from_soup(soup)
     img_data = requests.get(image_url).content
-    with open('temp_img.png', 'wb') as handler:
+    with open('.\\images\\' + name + ".png", 'wb') as handler:
         handler.write(img_data)
 
-
-    editing_image = Image.open("temp_img.png")
+    editing_image = Image.open('.\\images\\' + name + ".png")
     #editing_image = Image.open("Dm24sp2-10.png") # custom image
     print(card_type)
 
@@ -120,12 +135,4 @@ def download_translated_image(URL):
         add_text_box_on_image(editing_image, full_ability_text, (40, 420), (850, 600))
         editing_image = editing_image.rotate(-90, expand=1)
 
-    name_split = URL.split("/")
-    name = ""
-    name_started = False
-    for i in name_split:
-        if name_started:
-            name += i
-        if i == "wiki":
-            name_started = True
-    editing_image.save(name + ".png")
+    editing_image.save('.\\images\\' + name + ".png")
