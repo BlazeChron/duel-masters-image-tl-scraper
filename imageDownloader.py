@@ -28,6 +28,8 @@ def paste_ability_text_in_rect(full_ability_text, ABILITY_BOX_TOP_LEFT_CORNER, A
     font_size = 19
     ability_text_image = None
     while True:
+        if font_size == 0:
+            break
         try:
             fnt = ImageFont.truetype("fonts/calibri.ttf", font_size)
             ability_text_image = Image.new("RGB", (ABILITY_BOX_BOTTOM_RIGHT_CORNER[0] - ABILITY_BOX_TOP_LEFT_CORNER[0], ABILITY_BOX_BOTTOM_RIGHT_CORNER[1] - ABILITY_BOX_TOP_LEFT_CORNER[1]), (255, 255, 255))

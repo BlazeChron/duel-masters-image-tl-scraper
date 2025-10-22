@@ -1,5 +1,5 @@
 
-from PIL import ImageDraw
+from PIL import ImageDraw, Image
 
 def break_fix(text, width, font, draw):
     if not text:
@@ -9,13 +9,13 @@ def break_fix(text, width, font, draw):
     while lo < hi:
         mid = (lo + hi + 1) // 2
         t = text[:mid]
-        w, h = draw.textsize(t, font=font)
+        w, h = textsize(t, font=font)
         if w <= width:
             lo = mid
         else:
             hi = mid - 1
     t = text[:lo]
-    w, h = draw.textsize(t, font=font)
+    w, h = textsize(t, font=font)
     yield t, w, h
     yield from break_fix(text[lo:], width, font, draw)
 
@@ -31,3 +31,10 @@ def fit_text(img, text, color, font):
         x = (img.size[0] - w) // 2
         draw.text((x, y), t, font=font, fill=color)
         y += h
+
+
+def textsize(text, font):
+    im = Image.new(mode="P", size=(0, 0))
+    draw = ImageDraw.Draw(im)
+    _, _, width, height = draw.textbbox((0, 0), text=text, font=font)
+    return width, height
