@@ -11,12 +11,33 @@ Has support for sideways cards.
 Does not always work, might break depending on the structure of the fandom page.
 
 # Requirements:
-Python, Beautiful soup.
+| Thing    | Reason |
+| -------- | ------- |
+| Python  | It's coded in Python    |
+| Python requests | Get html from Wiki     |
+| Beautiful soup    | Parse the html from Wiki    |
+| Pillow    | Edit the image    |
+
 
 # Usage
-Download this repo
+## Download this repo, or clone it
 
-Put decklist of Duel Masters wiki card links in `decklist.txt`, with 1 card on each line
+`git clone https://github.com/BlazeChron/duel-masters-image-tl-scraper.git`
+
+## Install Python requests, Beautiful soup and Pillow
+
+`pip install requests`
+
+`pip install bs4`
+
+`pip install Pillow`
+
+
+## Create image export directory, images will be created here
+
+`mkdir images`
+
+## Put decklist of Duel Masters wiki card links in `decklist.txt`, with 1 card on each line
 
 `decklist.txt`
 ```
@@ -25,7 +46,10 @@ https://duelmasters.fandom.com/wiki/DARK_MATERIAL_COMPLEX
 ...
 ```
 
-Run `python url-compiler.py`
+## Run
+`python url-compiler.py`
+
+You will find the exported images in the `/images` directory created earlier
 
 # Maintenance of this repo:
 
