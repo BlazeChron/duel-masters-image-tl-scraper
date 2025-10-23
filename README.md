@@ -15,9 +15,6 @@ Has support for sideways cards.
 Also it doesn't look that good, sorry 🥀
 
 # Requirements:
-❗❗❗ For now only works on **Windows**
-
-The file export path in `imageDownloader.py` final line is hard-coded , which will not export correctly for non-Windows machines.
 
 | Thing    | Reason |
 | -------- | ------- |
@@ -52,6 +49,11 @@ python -m venv ./.venv
 #### Specifically bash shell on Windows:
 ```
 source ./.venv/Scripts/activate
+```
+You can deactivate it by running `deactivate`
+#### bash shell on Linux:
+```
+source ./.venv/bin/activate
 ```
 You can deactivate it by running `deactivate`
 #### Every other configuration...
