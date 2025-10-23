@@ -137,4 +137,4 @@ def download_translated_image(URL):
         add_text_box_on_image(editing_image, full_ability_text, (40, 420), (850, 600))
         editing_image = editing_image.rotate(-90, expand=1)
 
-    editing_image.save('.\\images\\' + name + ".png")
+    editing_image.save('./images/' + name + ".png")
