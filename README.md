@@ -2,15 +2,17 @@
 Not affiliated with anyone (wotc, fandom maintainers). Just a fan who wants to introduce people who can't read Japanese to the game.
 
 # What is this
-Gets the images of Duel Masters cards off the Duel Masters Wiki, and pastes the translation as provided as a `.png` file.
+Gets the images of Duel Masters cards off the Duel Masters Wiki, and pastes the translation (of the ability text) as provided as a `.png` file.
 
 ![this is supposed to be the example image](https://github.com/BlazeChron/duel-masters-image-tl-scraper/blob/master/explain.png)
 
 Has support for sideways cards.
 
-Does not always work, might break depending on the structure of the fandom page.
+❗ Completely forgot to translate name and card type 🤡
 
-Also the text formatting isn't that good.
+❗ Does not always work, might break depending on the structure of the fandom page. I only tested on my ooga booga aggro decks in Original format.
+
+Also it doesn't look that good, sorry 🥀
 
 # Requirements:
 | Thing    | Reason |
