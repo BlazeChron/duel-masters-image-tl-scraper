@@ -1,7 +1,0 @@
-README.md
-pyproject.toml
-duel_masters_image_tl_scraper.egg-info/PKG-INFO
-duel_masters_image_tl_scraper.egg-info/SOURCES.txt
-duel_masters_image_tl_scraper.egg-info/dependency_links.txt
-duel_masters_image_tl_scraper.egg-info/requires.txt
-duel_masters_image_tl_scraper.egg-info/top_level.txt
