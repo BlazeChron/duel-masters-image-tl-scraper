@@ -1,0 +1,12 @@
+[project]
+name = "duel-masters-image-tl-scraper"
+version = "0.1.0"
+dependencies = [
+    "beautifulsoup4 >= 4.14.2",
+    "requests >= 2.32.5",
+    "pillow >= 12.0.0",
+]
+
+# because the scripts are at root
+[tool.setuptools]
+py-modules = []
