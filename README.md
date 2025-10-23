@@ -15,6 +15,10 @@ Has support for sideways cards.
 Also it doesn't look that good, sorry 🥀
 
 # Requirements:
+❗❗❗ For now only works on **Windows**
+
+The file export path in `imageDownloader.py` final line is hard-coded , which will not export correctly for non-Windows machines.
+
 | Thing    | Reason |
 | -------- | ------- |
 | Python >= 3.12 | It's a Python program |
